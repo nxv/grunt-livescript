@@ -5,8 +5,6 @@ exports.livescript = {
   compile: function(test) {
     'use strict';
 
-    // test.expect(3);
-debugger;
     var actual = grunt.file.read('tmp/livescript.js');
     var expected = grunt.file.read('test/expected/livescript.js');
     test.equal(expected, actual, 'should compile livescript to javascript');
