@@ -1,4 +1,4 @@
-grunt-contrib-livescript
+grunt-livescript
 ========================
 
 Livescript Grunt Contrib task
