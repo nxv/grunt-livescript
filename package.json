@@ -1,8 +1,8 @@
 {
   "name": "grunt-livescript",
   "description": "Compile LiveScript files to JavaScript.",
-  "version": "0.4.0",
-  "homepage": "https://github.com/DavidSouther/grunt-contrib-livescript",
+  "version": "0.4.1",
+  "homepage": "https://github.com/DavidSouther/grunt-livescript",
   "author": {
     "name": "David Souther",
     "url": "http://davidsouther.com/"
@@ -28,7 +28,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "LiveScript": "~1.0.1",
+    "dslivescript": "~1.1.0",
     "grunt-contrib-lib": "~0.3.0"
   },
   "devDependencies": {
