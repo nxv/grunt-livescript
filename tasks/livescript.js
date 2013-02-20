@@ -9,24 +9,17 @@
 module.exports = function(grunt) {
   'use strict';
 
-  // TODO: ditch this when grunt v0.4 is released
-  grunt.util = grunt.util || grunt.utils;
-
   grunt.registerMultiTask('livescript', 'Compile LieveScript files into JavaScript', function() {
     var path = require('path');
 
-    var helpers = require('grunt-contrib-lib').init(grunt);
-
-    var options = helpers.options(this, {
+    var options = this.options({
       bare: false,
       basePath: false,
-      flatten: false
+      flatten: false,
+      separator: grunt.util.linefeed
     });
 
     grunt.verbose.writeflags(options, 'Options');
-
-    // TODO: ditch this when grunt v0.4 is released
-    this.files = this.files || helpers.normalizeMultiTaskFiles(this.data, this.target);
 
     var basePath;
     var newFileDest;
@@ -36,38 +29,27 @@ module.exports = function(grunt) {
     var taskOutput;
 
     this.files.forEach(function(file) {
-      file.dest = path.normalize(file.dest);
-      srcFiles = grunt.file.expandFiles(file.src);
-
-      if (srcFiles.length === 0) {
-        grunt.log.writeln('Unable to compile; no valid source files were found.');
-        return;
-      }
-
-      taskOutput = [];
-
-      srcFiles.forEach(function(srcFile) {
-        srcCompiled = compileCoffee(srcFile, options);
-
-        if (helpers.isIndividualDest(file.dest)) {
-          basePath = helpers.findBasePath(srcFiles, options.basePath);
-          newFileDest = helpers.buildIndividualDest(file.dest, srcFile, basePath, options.flatten);
-
-          grunt.file.write(newFileDest, srcCompiled || '');
-          grunt.log.writeln('File ' + newFileDest.cyan + ' created.');
+      var output = file.src.filter(function(filepath) {
+        if (!grunt.file.exists(filepath)) {
+          grunt.og.warn('Source file "' + filepath + '" not found.');
+          return false;
         } else {
-          taskOutput.push(srcCompiled);
+          return true;
         }
-      });
+      }).map(function(filepath) {
+        return compile(filepath, options);
+      }).join(grunt.util.normalizelf(options.separator));
 
-      if (taskOutput.length > 0) {
-        grunt.file.write(file.dest, taskOutput.join('\n') || '');
+      if (output.length < 1) {
+        grunt.log.warn('Destination not written because compiled files were empty.');
+      } else {
+        grunt.file.write(file.dest, output);
         grunt.log.writeln('File ' + file.dest.cyan + ' created.');
       }
     });
   });
 
-  var compileCoffee = function(srcFile, options) {
+  var compile = function(srcFile, options) {
     options = grunt.util._.extend({filename: srcFile}, options);
     delete options.basePath;
     delete options.flatten;
