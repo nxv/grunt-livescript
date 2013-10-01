@@ -11,11 +11,6 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    lint: {
-       // all: ['grunt.js', 'tasks/*.js', '<config:nodeunit.tasks>']
-      all: []
-    },
-
     jshint: {
       options: {
         curly: true,
@@ -70,7 +65,9 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // The clean plugin helps in testing.
-  grunt.loadNpmTasks('grunt-contrib');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Whenever the 'test' task is run, first clean the 'tmp' dir, then run this
   // plugin's task(s), then test the result.

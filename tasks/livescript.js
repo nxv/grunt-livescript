@@ -57,7 +57,7 @@ module.exports = function(grunt) {
     var srcCode = grunt.file.read(srcFile);
 
     try {
-      return require('dslivescript').compile(srcCode, options);
+      return require('LiveScript').compile(srcCode, options);
     } catch (e) {
       grunt.log.error(e);
       grunt.fail.warn('LiveScript failed to compile.');
