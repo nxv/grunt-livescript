@@ -2,22 +2,19 @@
   "name": "grunt-livescript",
   "description": "Compile LiveScript files to JavaScript.",
   "version": "0.5.1",
-  "homepage": "https://github.com/DavidSouther/grunt-livescript",
-  "author": {
-    "name": "David Souther",
-    "url": "http://davidsouther.com/"
-  },
+  "homepage": "https://github.com/nxv/grunt-livescript",
+  "author": "NeXt Version",
   "repository": {
     "type": "git",
-    "url": "git://github.com/DavidSouther/grunt-livescript.git"
+    "url": "git://github.com/nxv/grunt-livescript.git"
   },
   "bugs": {
-    "url": "https://github.com/DavidSouther/grunt-livescript/issues"
+    "url": "https://github.com/nxv/grunt-livescript/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/DavidSouther/grunt-livescript/blob/master/LICENSE-MIT"
+      "url": "https://github.com/nxv/grunt-livescript/blob/master/LICENSE-MIT"
     }
   ],
   "main": "grunt.js",

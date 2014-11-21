@@ -16,7 +16,9 @@ module.exports = function(grunt) {
       bare: false,
       basePath: false,
       flatten: false,
-      separator: grunt.util.linefeed
+      separator: grunt.util.linefeed,
+      process: false,
+      noProcess: []
     });
 
     grunt.verbose.writeflags(options, 'Options');
@@ -29,15 +31,28 @@ module.exports = function(grunt) {
     var taskOutput;
 
     this.files.forEach(function(file) {
-      var output = file.src.filter(function(filepath) {
-        if (!grunt.file.exists(filepath)) {
-          grunt.og.warn('Source file "' + filepath + '" not found.');
+      var output = file.src.filter(function(srcpath) {
+        if (!grunt.file.exists(srcpath)) {
+          grunt.og.warn('Source file "' + srcpath + '" not found.');
           return false;
         } else {
           return true;
         }
-      }).map(function(filepath) {
-        return compile(filepath, options);
+      }).map(function(srcpath) {
+        var contents = compile(srcpath, options);
+        var process = options.process && options.noProcess !== true &&
+            !(options.noProcess && grunt.file.isMatch(options.noProcess, srcpath));
+        if (process) {
+          grunt.verbose.write('Processing source...');
+          try {
+            contents = options.process(contents, srcpath, file.dest);
+            grunt.verbose.ok();
+          } catch(e) {
+            grunt.verbose.error();
+            throw grunt.util.error('Error while processing "' + srcpath + '" file.', e);
+          }
+        }
+        return contents;
       }).join(grunt.util.normalizelf(options.separator));
 
       if (output.length < 1) {
